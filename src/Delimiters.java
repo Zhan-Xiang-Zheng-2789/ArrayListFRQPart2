@@ -19,7 +19,15 @@ public class Delimiters
     /** Returns an ArrayList of delimiters from the array tokens, as described in part (a). */
     public ArrayList<String> getDelimitersList(String[] tokens)
     {
-        /* to be implemented in part (a) */
+        ArrayList<String> newArrayList = new ArrayList<>();
+        for(String token : tokens)
+        {
+            if(token.contains("(") || token.contains(")") || token.contains("<") || token.contains(">") || token.contains("</"))
+            {
+                newArrayList.add(token);
+            }
+        }
+        return newArrayList;
     }
 
     /** Returns true if the delimiters are balanced and false otherwise, as described in part (b).
@@ -27,6 +35,48 @@ public class Delimiters
      */
     public boolean isBalanced(ArrayList<String> delimiters)
     {
-        /* to be implemented in part (b) */
+        for(int i = 0; i < delimiters.size(); i++)
+        {
+            if (delimiters.get(i).equals("("))
+            {
+                delimiters.remove(i);
+                i--;
+                for(int j = i+1; j < delimiters.size(); j++)
+                {
+                    if (delimiters.get(j).contains(")"))
+                    {
+                        delimiters.remove(j);
+                        break;
+                    }
+                    else if (j==delimiters.size()-1)
+                    {
+                        return false;
+                    }
+                }
+            }
+            else if (delimiters.get(i).contains("<") && !(delimiters.get(i).contains("</")))
+            {
+                delimiters.remove(i);
+                i--;
+                for(int j = i+1; j < delimiters.size(); j++)
+                {
+                    if (delimiters.get(j).contains("</"))
+                    {
+                        delimiters.remove(j);
+                        break;
+                    }
+                    else if (j==delimiters.size()-1)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            else if (delimiters.get(i).contains(")") || delimiters.get(i).contains("</"))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
